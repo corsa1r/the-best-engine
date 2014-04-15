@@ -1,3 +1,8 @@
+/**
+ * @file implements Camera class
+ * @author CORSAIR <vladimir.corsair@gmail.com>
+ * 
+ */
 (function() {
     define(['engine/EventSet'], function(EventSet) {
         var Camera = function(screen) {
