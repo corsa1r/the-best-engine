@@ -1,15 +1,17 @@
-define(['engine/network/Network', 'engine/network/socket.io'], function(Network, io) {
-    
-    var SocketNetwork = function() {
-        SocketNetwork.super.constructor.call(this);
-    };
+(function() {
+    define(['engine/network/Network', 'engine/network/socket.io'], function(Network, io) {
 
-    SocketNetwork.extend(Network);
-    
+        var SocketNetwork = function() {
+            SocketNetwork.super.constructor.call(this);
+        };
 
-    SocketNetwork.prototype.connect = function(server) {
-        this.socket = io.connect(server);
-    };
-    
-    return SocketNetwork;
-});
+        SocketNetwork.extend(Network);
+
+
+        SocketNetwork.prototype.connect = function(server) {
+            this.socket = io.connect(server);
+        };
+
+        return SocketNetwork;
+    });
+})();
