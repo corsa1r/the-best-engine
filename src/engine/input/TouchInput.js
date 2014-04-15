@@ -20,7 +20,7 @@
          * @returns {_L14.TouchInput}
          */
         function TouchInput(screen, options) {
-            EventSet.call(this);
+            EventSet.super.constructor.call(this);
             this.screen = screen;
             this.hummertime = Hammer(this.screen.canvas, options || {});
             
@@ -37,7 +37,7 @@
             return this;
         }
         
-        TouchInput.prototype = Object.create(EventSet.prototype);// inherit
+        TouchInput.extend(EventSet);// inherit
         
         TouchInput.prototype.configureEvent = function (event, which, state, time) {
             event.which = which;
