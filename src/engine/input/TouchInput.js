@@ -11,7 +11,7 @@
      * @param {Object} Hammer
      * @returns {_L5.TouchInput}
      */
-    define(['engine/EventSet', 'engine/input/Hammer'], function (EventSet, Hammer) {
+    define(['engine/EventSet', 'lib/Hammer'], function (EventSet, Hammer) {
         
         /**
          * Class Touch input
