@@ -38,9 +38,7 @@
 
 
         Function.prototype.extend = function(ancestor) {
-            function Prototype() {
-
-            }
+            function Prototype() {}
             Prototype.prototype = ancestor.prototype;
             this.prototype = new Prototype();
             this.prototype.constructor = this;
@@ -48,18 +46,18 @@
         };
 
 
-        //Object.prototype.combine = function (object) {
-        //    if (object instanceof Object) {
-        //        for(var id in object) {
-        //            if (object.hasOwnProperty(id)) {
-        //                if (this[id] instanceof Object) {
-        //                    this[id].combine(object[id]);
-        //                } else {
-        //                    this[id] = object[id];
-        //                }
-        //            }
-        //        }
-        //    }
-        //};
+//        Object.prototype.combine = function (object) {
+//            if (object instanceof Object) {
+//                for(var id in object) {
+//                    if (object.hasOwnProperty(id)) {
+//                        if (this[id] instanceof Object) {
+//                            this[id].combine(object[id]);
+//                        } else {
+//                            this[id] = object[id];
+//                        }
+//                    }
+//                }
+//            }
+//        };
     });
 })();
