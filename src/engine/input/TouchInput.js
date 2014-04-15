@@ -1,16 +1,31 @@
+/**
+ * @file implements Touch input
+ * @author CORSAIR <vladimir.corsair@gmail.com>
+ * @version test
+ */
+
 (function () {
+    /**
+     * Define module Touch input
+     * @param {Object} EventSet
+     * @param {Object} Hammer
+     * @returns {_L5.TouchInput}
+     */
     define(['engine/EventSet', 'engine/input/Hammer'], function (EventSet, Hammer) {
+        
+        /**
+         * Class Touch input
+         * @param {Object} screen - requires Screen
+         * @param {Object} options - Hammer.js options
+         * @returns {_L14.TouchInput}
+         */
         function TouchInput(screen, options) {
-            if(!options) {
-                options = {};
-            }
             
             this.screen = screen;
-            this.events = new EventSet();
+            this.events = new EventSet();//TODO... use Function.extend later
+            this.hummertime = Hammer(this.screen.canvas, options || {});
             
-            this.hummertime = Hammer(this.screen.canvas);
-            
-            //Handle the events
+            //Handle the events from TouchInput.eventsMap
             for (var key in TouchInput.eventsMap) {
                 if(TouchInput.eventsMap.hasOwnProperty(key)) {
                     this.hummertime.on(key, (function (event) {
@@ -19,6 +34,8 @@
                     }).bind(this));
                 }
             }
+            
+            return this;
         }
         
         TouchInput.prototype.configureEvent = function (event, which, state, time) {
