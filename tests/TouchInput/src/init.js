@@ -25,7 +25,7 @@ define([
     
     //Draw something with touches
     
-    touch.events.on('output', function(e) {
+    touch.on('output', function(e) {
         if(e.which === 'drag') {
             for(var x in e.touches) {
                 context.beginPath();

@@ -20,9 +20,8 @@
          * @returns {_L14.TouchInput}
          */
         function TouchInput(screen, options) {
-            
+            EventSet.call(this);
             this.screen = screen;
-            this.events = new EventSet();//TODO... use Function.extend later
             this.hummertime = Hammer(this.screen.canvas, options || {});
             
             //Handle the events from TouchInput.eventsMap
@@ -30,13 +29,15 @@
                 if(TouchInput.eventsMap.hasOwnProperty(key)) {
                     this.hummertime.on(key, (function (event) {
                         this.configureEvent(event.gesture, event.type, true, Date.now());
-                        this.events.fire('output', event.gesture);
+                        this.fire('output', event.gesture);
                     }).bind(this));
                 }
             }
             
             return this;
         }
+        
+        TouchInput.prototype = Object.create(EventSet.prototype);// inherit
         
         TouchInput.prototype.configureEvent = function (event, which, state, time) {
             event.which = which;
