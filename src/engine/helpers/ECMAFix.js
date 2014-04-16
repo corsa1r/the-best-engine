@@ -31,7 +31,6 @@
             };
         }
 
-
         Function.prototype.getName = function() {
             return this.toString().match(/function ([^\(]*)/)[1];
         };
@@ -39,7 +38,6 @@
 
         Function.prototype.extend = function(ancestor) {
             function Prototype() {
-
             }
             Prototype.prototype = ancestor.prototype;
             this.prototype = new Prototype();
@@ -47,19 +45,41 @@
             this.super = ancestor.prototype;
         };
 
+        if (!Function.prototype.bind) {
+            Function.prototype.bind = function(oThis) {
+                if (typeof this !== "function") {
+                    // closest thing possible to the ECMAScript 5 internal IsCallable function
+                    throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+                }
 
-        //Object.prototype.combine = function (object) {
-        //    if (object instanceof Object) {
-        //        for(var id in object) {
-        //            if (object.hasOwnProperty(id)) {
-        //                if (this[id] instanceof Object) {
-        //                    this[id].combine(object[id]);
-        //                } else {
-        //                    this[id] = object[id];
-        //                }
-        //            }
-        //        }
-        //    }
-        //};
+                var aArgs = Array.prototype.slice.call(arguments, 1),
+                        fToBind = this,
+                        fNOP = function() {},
+                        fBound = function() {
+                            return fToBind.apply(
+                                    this instanceof fNOP && oThis ? this : oThis,
+                                    aArgs.concat(Array.prototype.slice.call(arguments))
+                                    );
+                        };
+                fNOP.prototype = this.prototype;
+                fBound.prototype = new fNOP();
+
+                return fBound;
+            };
+        }
+        
+        Object.defineProperty(Object, 'combine', {value: function(object) {
+                if (object instanceof Object) {
+                    for (var id in object) {
+                        if (object.hasOwnProperty(id)) {
+                            if (this[id] instanceof Object) {
+                                this[id].combine(object[id]);
+                            } else {
+                                this[id] = object[id];
+                            }
+                        }
+                    }
+                }
+            }});
     });
 })();
