@@ -31,7 +31,6 @@
             };
         }
 
-
         Function.prototype.getName = function() {
             return this.toString().match(/function ([^\(]*)/)[1];
         };
@@ -45,21 +44,15 @@
             this.prototype.constructor = this;
             this.super = ancestor.prototype;
         };
-
-
-//        Object.prototype.combine = function (object) {
-//            if (object instanceof Object) {
-//                for(var id in object) {
-//                    if (object.hasOwnProperty(id)) {
-//                        if (this[id] instanceof Object) {
-//                            this[id].combine(object[id]);
-//                        } else {
-//                            this[id] = object[id];
-//                        }
-//                    }
-//                }
+        
+//        Function.defineProperty(Function, 'extend', {value: function(ancestor) {
+//            function Prototype() {
 //            }
-//        };
+//            Prototype.prototype = ancestor.prototype;
+//            this.prototype = new Prototype();
+//            this.prototype.constructor = this;
+//            this.super = ancestor.prototype;
+//        }});
 
         if (!Function.prototype.bind) {
             Function.prototype.bind = function(oThis) {
@@ -69,19 +62,33 @@
                 }
 
                 var aArgs = Array.prototype.slice.call(arguments, 1),
-                    fToBind = this,
-                    fNOP = function() {},
-                    fBound = function() {
-                        return fToBind.apply(
-                            this instanceof fNOP && oThis ? this : oThis,
-                            aArgs.concat(Array.prototype.slice.call(arguments))
-                        );
-                    };
+                        fToBind = this,
+                        fNOP = function() {},
+                        fBound = function() {
+                            return fToBind.apply(
+                                    this instanceof fNOP && oThis ? this : oThis,
+                                    aArgs.concat(Array.prototype.slice.call(arguments))
+                                    );
+                        };
                 fNOP.prototype = this.prototype;
                 fBound.prototype = new fNOP();
 
                 return fBound;
             };
         }
+        
+        Object.defineProperty(Object, 'combine', {value: function(object) {
+                if (object instanceof Object) {
+                    for (var id in object) {
+                        if (object.hasOwnProperty(id)) {
+                            if (this[id] instanceof Object) {
+                                this[id].combine(object[id]);
+                            } else {
+                                this[id] = object[id];
+                            }
+                        }
+                    }
+                }
+            }});
     });
 })();
