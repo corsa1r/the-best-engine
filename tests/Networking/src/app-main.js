@@ -2,4 +2,4 @@ require.config({
     baseUrl: '../src/'
 });
 
-require(['../tests/NetworkingDemo/src/init']);
+require(['../tests/Networking/src/init']);
