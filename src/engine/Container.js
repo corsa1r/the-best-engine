@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/helpers/ECMAFix'], function() {
+    define(['engine/helpers/ECMAFixes'], function() {
 
         /**
          * A convenient object container.
