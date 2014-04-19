@@ -1,0 +1,13 @@
+{
+    "name": "the-best-engine",
+    "version": "0.0.0",
+    "description": "HTML 5 Canvas game engine.",
+    "license": "MIT",
+    "authors": [
+        "<o0@1inkz.com>"
+    ],
+    "dependencies": {
+        "requirejs": "~2.1.11",
+        "hammerjs": "~1.0.9"
+    }
+}
