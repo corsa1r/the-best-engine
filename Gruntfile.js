@@ -7,6 +7,9 @@ module.exports = function(grunt) {
 
         clean: ['dist/*'],
 
+        karma: {
+            run: {
+                configFile: 'karma.conf.js'
         copy: {
             dev: {
                 files: [
@@ -30,6 +33,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-karma');
 
+    grunt.registerTask('test', ['karma:run']);
     grunt.registerTask('build:dev', ['clean', 'copy:dev']);
     //grunt.registerTask('build:prod', ['clean', ...]);
     grunt.registerTask('default', ['build:dev']);
