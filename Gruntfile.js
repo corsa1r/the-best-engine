@@ -10,31 +10,38 @@ module.exports = function(grunt) {
         karma: {
             run: {
                 configFile: 'karma.conf.js'
-        copy: {
-            dev: {
-                files: [
-                     {expand: true, cwd: 'src/', src: ['**'], dest: 'dist/', ext: '.js'},
-                     {expand: true, src: ['bower_components/**'], dest: 'dist/'}
-                ]
             }
         },
 
-        karma: {
-            unit: {
-                configFile: 'karma.conf.js'
+        requirejs: {
+            build: {
+                options: {
+                    name: 'main',
+                    baseUrl: 'src/',
+                    mainConfigFile: 'src/config.js',
+                    out: 'dist/engine.js',
+                    optimize: 'none'
+                }
+            }
+        },
+
+        uglify: {
+            build: {
+                files: {
+                    'dist/engine.min.js': ['dist/engine.js']
+                }
             }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('test', ['karma:run']);
-    grunt.registerTask('build:dev', ['clean', 'copy:dev']);
-    //grunt.registerTask('build:prod', ['clean', ...]);
-    grunt.registerTask('default', ['build:dev']);
+    grunt.registerTask('build', ['requirejs:build', 'uglify:build']);
+    grunt.registerTask('default', ['build']);
 };
