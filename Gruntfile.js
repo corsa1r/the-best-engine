@@ -7,6 +7,16 @@ module.exports = function(grunt) {
 
         clean: ['dist/*'],
 
+        copy: {
+            build: {
+                files: [
+                    {src: 'bower.json', dest: 'dist/'},
+                    {src: 'LICENSE', dest: 'dist/'},
+                    {src: 'README.md', dest: 'dist/'}
+                ]
+            }
+        },
+
         karma: {
             run: {
                 configFile: 'karma.conf.js'
@@ -36,12 +46,13 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('test', ['karma:run']);
-    grunt.registerTask('build', ['requirejs:build', 'uglify:build']);
+    grunt.registerTask('build', ['requirejs:build', 'uglify:build', 'copy:build']);
     grunt.registerTask('default', ['build']);
 };
