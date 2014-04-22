@@ -1,8 +1,12 @@
 (function() {
-    define(function() {
+    define(['engine/EventSet'], function(EventSet) {
 
         function GameObject() {
+            GameObject.super.constructor.call(this);
         }
+        
+        GameObject.extend(EventSet);
+        
 
         GameObject.prototype.repr = function(repr) {
             for (var x in repr) {
