@@ -1,8 +1,10 @@
 (function() {
-    define(['engine/EventSet'], function(EventSet) {
+    define(['engine/EventSet', 'engine/Camera'], function(EventSet, Camera) {
 
         function GameObject() {
             GameObject.super.constructor.call(this);
+            
+            this.camera = { x: 0, y: 0 };
         }
         
         GameObject.extend(EventSet);
@@ -14,6 +16,12 @@
             }
 
             return this;
+        };
+        
+        GameObject.prototype.affectWithCamera = function (camera) {
+            if(camera instanceof Camera) {
+                this.camera = camera;
+            }
         };
 
         GameObject.prototype.getRepr = function() {

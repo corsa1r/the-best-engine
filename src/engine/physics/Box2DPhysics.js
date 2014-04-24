@@ -8,15 +8,11 @@
          * @param {Object} options - world options, such as gravity, scale etc..
          * @returns {_L2.Box2DPhysics}
          */
-        function Box2DPhysics(gameloop, screen, options) {
+        function Box2DPhysics(screen, options) {
             Box2DPhysics.super.constructor.call(this);
 
-            if (!gameloop || !screen) {
+            if (!screen) {
                 throw new Error('Invalid arguments, Box2DPhysics constructor');
-            }
-
-            if (!gameloop instanceof GameLoop) {
-                throw new Error('First argument must be instance of GameLoop');
             }
 
             if (!screen instanceof Screen) {
@@ -29,14 +25,13 @@
 
             this.options = options;
 
-            this.gameloop = gameloop;   //This is engine/GameLoop
             this.screen = screen;       //This is engine/Screen
 
             //Initialize gravity
             var gravity = new Box2DPhysics.vector2(options.gravity ? options.gravity.x : 0, options.gravity ? options.gravity.y : 10000);
             //Initialize world with this gravity
             this.world = new Box2DPhysics.world(gravity, false);
-
+            console.warn(this.world);
             //Canvas screen and context(debug draw only)
             this.element = screen.canvas;
             this.context = screen.context;
@@ -49,7 +44,6 @@
             this.stepAmount = options.stepAmount || 1 / 60;
 
             //Attach handler to gameloop update, for physics steps
-            this.gameloop.on('physics-step', this.step.bind(this));
             this.collision();
         }
 
@@ -60,9 +54,8 @@
          * @param {Number} delta this is gameloop delta time
          * @returns {undefined}
          */
-        Box2DPhysics.prototype.step = function(delta) {
-            this.world.Step(this.stepAmount, 8, 3);
-
+        Box2DPhysics.prototype.step = function() {
+            this.world.Step(this.stepAmount,10, 10);
             if (this.debugDraw) {
                 this.world.DrawDebugData();
             }
@@ -78,7 +71,7 @@
             this.world.SetDebugDraw(this.debugDraw);
         };
 
-        Box2DPhysics.prototype.attachMouseInput = function(mouseInput) {
+        Box2DPhysics.prototype.attachMouseInput = function(mouseInput, camera) {
             var inputState = new StateMap();
 
             mouseInput.on('output', inputState.feed(MouseInput.buttonMap));
@@ -87,7 +80,7 @@
                 this.world.QueryPoint((function(fixture) {
                     fixture.GetBody().GetUserData().fire('output', fixture, e);
                     this.fire('output', fixture.GetBody(), fixture, e);
-                }).bind(this), {x: e.x, y: e.y});
+                }).bind(this), {x: e.x + camera.x, y: e.y + camera.y});
             }).bind(this));
         };
 
