@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/EventSet'], function(EventSet) {
+    define(['src/engine/EventSet'], function(EventSet) {
         var Physics = function() {
             Physics.super.constructor.call(this);
         };

@@ -1,10 +1,10 @@
 (function() {
     define([
-        'engine/helpers/ECMAFixes/FunctionExtend',
-        'engine/helpers/ECMAFixes/RequestAnimationFrame',
-        'engine/helpers/ECMAFixes/DateNow',
-        'engine/helpers/ECMAFixes/FunctionBind',
-        'engine/helpers/ECMAFixes/FunctionGetName',
-        'engine/helpers/ECMAFixes/ObjectCombine'
+        'src/engine/helpers/ECMAFixes/FunctionExtend',
+        'src/engine/helpers/ECMAFixes/RequestAnimationFrame',
+        'src/engine/helpers/ECMAFixes/DateNow',
+        'src/engine/helpers/ECMAFixes/FunctionBind',
+        'src/engine/helpers/ECMAFixes/FunctionGetName',
+        'src/engine/helpers/ECMAFixes/ObjectCombine'
     ]);
 })();

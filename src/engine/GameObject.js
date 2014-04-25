@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/EventSet', 'engine/Camera'], function(EventSet, Camera) {
+    define(['src/engine/EventSet', 'src/engine/Camera'], function(EventSet, Camera) {
 
         function GameObject() {
             GameObject.super.constructor.call(this);
@@ -48,6 +48,11 @@
         };
 
         GameObject.prototype.networkDependenciesAsset = [];
+        
+        GameObject.prototype.update = function () {};
+        GameObject.prototype.physics_update = function () {};
+        
+        GameObject.prototype.draw = function () {};
 
         return GameObject;
     });

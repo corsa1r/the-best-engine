@@ -4,7 +4,7 @@
  * 
  */
 (function() {
-    define(['engine/EventSet'], function(EventSet) {
+    define(['src/engine/EventSet'], function(EventSet) {
         var Camera = function(screen) {
             Camera.super.constructor.call(this);
             this.screen = screen;

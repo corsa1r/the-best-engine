@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/GameObject'], function(GameObject) {
+    define(['src/engine/GameObject'], function(GameObject) {
         function Body() {
             Body.super.constructor.call(this);
         };

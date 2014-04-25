@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/physics/Box2DPhysics', 'engine/physics/PhysicsBody'], function(Physics, PhysicsBody) {
+    define(['src/engine/physics/Box2DPhysics', 'src/engine/physics/PhysicsBody'], function(Physics, PhysicsBody) {
         var Body = function(physics, details) {
             Body.super.constructor.call(this);
             this.details = details || {};
@@ -62,8 +62,8 @@
         };
 
         Body.prototype.fixtureDefaults = {
-            density: 1,
-            friction: 0.5,
+            density: 0.01,
+            friction: 1,
             restitution: 0.3
         };
 

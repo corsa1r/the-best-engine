@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/Container'], function(Container) {
+    define(['src/engine/Container'], function(Container) {
 
         /**
          * @constructor

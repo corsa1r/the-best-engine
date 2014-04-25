@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/physics/Physics', 'lib/Box2dWeb', 'engine/GameLoop', 'engine/Screen', 'engine/input/StateMap', 'engine/input/MouseInput'], function(Physics, Box2D, GameLoop, Screen, StateMap, MouseInput) {
+    define(['src/engine/physics/Physics', 'src/lib/Box2dWeb', 'src/engine/input/StateMap', 'src/engine/input/MouseInput'], function(Physics, Box2D, StateMap, MouseInput) {
 
         /**
          * Box2D Physics interface
@@ -14,10 +14,6 @@
                 throw new Error('Invalid arguments, Box2DPhysics constructor');
             }
 
-            if (!screen instanceof Screen) {
-                throw new Error('Second argument must be instance of Screen');
-            }
-
             if (!options) {
                 options = {};
             }
@@ -29,8 +25,7 @@
             //Initialize gravity
             var gravity = new Box2DPhysics.vector2(options.gravity ? options.gravity.x : 0, options.gravity ? options.gravity.y : 0);
             //Initialize world with this gravity
-            this.world = new Box2DPhysics.world(gravity, false);
-            console.warn(this.world);
+            this.world = new Box2DPhysics.world(gravity, true);
             //Canvas screen and context(debug draw only)
             this.element = screen.canvas;
             this.context = screen.context;
@@ -40,7 +35,7 @@
 
             //Physical steps per second
             this.dtRemaining = 0;
-            this.stepAmount = options.stepAmount || 1 / 60;
+            this.stepAmount = options.stepAmount || 1 / 20;
 
             //Attach handler to gameloop update, for physics steps
             this.collision();
@@ -50,7 +45,6 @@
 
         /**
          * Move physics with one step
-         * @param {Number} delta this is gameloop delta time
          * @returns {undefined}
          */
         Box2DPhysics.prototype.step = function() {

@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/EventSet'], function(EventSet) {
+    define(['src/engine/EventSet'], function(EventSet) {
         /*
          * A GameLoop object.
          * 

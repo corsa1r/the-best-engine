@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/network/Network', 'lib/socket.io'], function(Network, io) {
+    define(['src/engine/network/Network', 'src/lib/socket.io'], function(Network, io) {
 
         var SocketNetwork = function() {
             SocketNetwork.super.constructor.call(this);

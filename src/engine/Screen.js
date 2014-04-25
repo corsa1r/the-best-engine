@@ -1,5 +1,5 @@
 (function() {
-    define(function() {
+    define([], function() {
         /**
          * @file implements Screen
          * @author CORSAIR <vladimir.corsair@gmail.com>
