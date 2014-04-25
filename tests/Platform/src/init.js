@@ -34,8 +34,8 @@ define([
     
     var objects = new Container();
     
-    var physics = new Physics(gameloop, screen, {
-        gravity: {x: 0, y: 3}
+    var physics = new Physics(screen, {
+        gravity: {x: 0, y: 30}
     });
     
 //    physics.debug();

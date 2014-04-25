@@ -3,7 +3,6 @@
 
         /**
          * Box2D Physics interface
-         * @param {Object} gameloop - refference to a gameloop
          * @param {Object} screen - refference to a screen
          * @param {Object} options - world options, such as gravity, scale etc..
          * @returns {_L2.Box2DPhysics}
@@ -28,7 +27,7 @@
             this.screen = screen;       //This is engine/Screen
 
             //Initialize gravity
-            var gravity = new Box2DPhysics.vector2(options.gravity ? options.gravity.x : 0, options.gravity ? options.gravity.y : 10000);
+            var gravity = new Box2DPhysics.vector2(options.gravity ? options.gravity.x : 0, options.gravity ? options.gravity.y : 0);
             //Initialize world with this gravity
             this.world = new Box2DPhysics.world(gravity, false);
             console.warn(this.world);
@@ -55,7 +54,8 @@
          * @returns {undefined}
          */
         Box2DPhysics.prototype.step = function() {
-            this.world.Step(this.stepAmount,10, 10);
+            this.world.Step(this.stepAmount, 8, 3);
+            
             if (this.debugDraw) {
                 this.world.DrawDebugData();
             }
