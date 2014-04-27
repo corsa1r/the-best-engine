@@ -43,17 +43,20 @@ module.exports = function(grunt) {
         requirejs: {
             almond: {
                 options: {
-                    name: 'bower_components/almond/almond',
                     baseUrl: '',
-                    mainConfigFile: 'src/config.js',
-                    out: 'dist/engine.js',
-                    optimize: 'none',
+                    paths: {
+                        almond: 'bower_components/almond/almond'
+                    },
+                    name: 'almond',
+                    include: ['engine'],
                     wrap: {
                         start: '(function() {\n',
                         end: '}());\n'
-                    }
+                    },
+                    optimize: 'none',
+                    out: 'dist/engine.js'
                 }
-            },
+            }
         },
 
         uglify: {
