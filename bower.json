@@ -7,7 +7,6 @@
         "<o0@1inkz.com>"
     ],
     "dependencies": {
-        "requirejs": "~2.1.11",
-        "hammerjs": "~1.0.9"
+
     }
 }

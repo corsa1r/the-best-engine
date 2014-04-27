@@ -8,35 +8,56 @@ module.exports = function(grunt) {
         clean: ['dist/*'],
 
         copy: {
-            build: {
+            packaging: {
                 files: [
-                    {src: 'bower.json', dest: 'dist/'},
+                    {src: 'bower.json', dest: 'dist/'}
+                ]
+            },
+
+            documentation: {
+                files: [
                     {src: 'LICENSE', dest: 'dist/'},
                     {src: 'README.md', dest: 'dist/'}
+                ]
+            },
+
+            development: {
+                files: [
+                    {cwd: 'src/', src: '**', dest: 'dist/', expand: true}
                 ]
             }
         },
 
         karma: {
-            run: {
-                configFile: 'karma.conf.js'
+            development: {
+                configFile: 'karma.conf.js',
+            },
+
+            continuous: {
+                configFile: 'karma.conf.js',
+                singleRun: true,
+                browsers: ['PhantomJS']
             }
         },
 
         requirejs: {
-            build: {
+            almond: {
                 options: {
-                    name: 'main',
-                    baseUrl: 'src/',
+                    name: 'bower_components/almond/almond',
+                    baseUrl: '',
                     mainConfigFile: 'src/config.js',
                     out: 'dist/engine.js',
-                    optimize: 'none'
+                    optimize: 'none',
+                    wrap: {
+                        start: '(function() {\n',
+                        end: '}());\n'
+                    }
                 }
-            }
+            },
         },
 
         uglify: {
-            build: {
+            task: {
                 files: {
                     'dist/engine.min.js': ['dist/engine.js']
                 }
@@ -52,7 +73,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-karma');
 
-    grunt.registerTask('test', ['karma:run']);
-    grunt.registerTask('build', ['requirejs:build', 'uglify:build', 'copy:build']);
-    grunt.registerTask('default', ['build']);
+    grunt.registerTask('test', ['karma:development']);
+    grunt.registerTask('standalone', ['clean', 'requirejs:almond', 'uglify:task', 'copy:documentation', 'copy:packaging']);
+    grunt.registerTask('development', ['clean', 'copy:development', 'copy:documentation']);
+    grunt.registerTask('default', ['dev']);
 };
