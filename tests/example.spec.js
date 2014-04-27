@@ -2,6 +2,10 @@
     "use strict";
 
     define([], function() {
-        console.log('Try me!');
+        describe('Example unit test', function() {
+            it('shall pass.', function() {
+                expect(true).toBeTruthy();
+            });
+        });
     });
 }());
