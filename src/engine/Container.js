@@ -21,10 +21,11 @@
 
         /**
          * Adds an item to the container.
-         * 
-         * @param {*} item The item that will be contained. Important: if string is being stored, and no name is passed, the string itself will be used as name.
+         *
+         * @param {*} item The item that will be contained. Important: if string is being stored, and no name is passed,
+         *                 the string itself will be used as name.
          * @param {string} name An optional name for the item.
-         * @returns {Object} The item.
+         * @returns {Object} The index of the item in the container.
          */
         Container.prototype.add = function(item, name) {
             var id = this.items.push(item) - 1;
@@ -36,13 +37,13 @@
                 this.links[name] = id;
                 this.names[id] = name;
             }
-            return item;
+            return id;
         };
 
 
         /**
          * Return the index of given reference item.
-         * 
+         *
          * @param {(number|string|Object)} item Item, id or item's name. If id is passed, then will test if it exists.
          * @returns {number} The id of the item and -1 if no such items is found or id an id is out of range.
          */
@@ -68,7 +69,7 @@
 
         /**
          * Return the name of an item in the container or undefined if it isn't named or found.
-         * 
+         *
          * @param {(number|Object)} item The items or it's id.
          * @returns {(string|undefined)} The item's name or undefined.
          */
@@ -80,7 +81,7 @@
 
         /**
          * Insert item in the container.
-         * 
+         *
          * @param {(number|string|Object)} reference Reference item, id or name.
          * @param {Object} item The item that will be inserted.
          * @param {string} name Optional name for the item.
@@ -103,7 +104,7 @@
 
         /**
          * Remove item from the container.
-         * 
+         *
          * @param {(number|string|Object)} item Item, id or name.
          * @returns {undefined}
          */
@@ -119,7 +120,7 @@
 
         /**
          * Invokes a method of every item in the container. All arguments after 'method' are passed to the call.
-         * 
+         *
          * @param {...*} Method name and arguments to pass.
          * @returns {Array} Array of call results.
          */
@@ -139,7 +140,7 @@
 
         /**
          * Calls every item (if it is a function) in the container.
-         * 
+         *
          * @param {...*} Arguments to pass.
          * @returns {Array} Array of call results.
          */
@@ -162,7 +163,7 @@
 
         /**
          * Calls every item (if it is a function) in the container with supplied array of arguments.
-         * 
+         *
          * @param {Array} _arguments Arguments to pass to the function.
          * @returns {Array} Array of call results.
          */
@@ -184,8 +185,8 @@
 
 
         /**
-         * Applies a function(item[, id[, name]]) over every contained item. 
-         * 
+         * Applies a function(item[, id[, name]]) over every contained item.
+         *
          * @param {Function} procedure The function to apply. If it returns boolean false the iteration aborts.
          * @returns {boolean} True on success, false on halt.
          */
@@ -202,8 +203,8 @@
 
         /**
          * Test is the item is inside the container and adds it to the internal cache.
-         * It can be retreived with subsequent call to .get() with empty argument.
-         * 
+         * It can be retrieved with subsequent call to .get() with empty argument.
+         *
          * @param {(number|string)} what Item's id or name.
          * @returns {boolean} True if the item is found, false otherwise.
          */
@@ -215,7 +216,7 @@
 
         /**
          * Returns item from the container by specified id or name or from the cache (see .has()).
-         * 
+         *
          * @param {(number|string|undefined)} what Items's id or name or 'undefined'.
          * @returns {Object} The item, or undefined if it's not found.
          */
@@ -234,7 +235,7 @@
 
         /**
          * Removes all objects.
-         * 
+         *
          * @returns {undefined}
          */
         Container.prototype.empty = function() {
