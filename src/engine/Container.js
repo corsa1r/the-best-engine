@@ -1,22 +1,22 @@
 (function() {
-    define(['engine/helpers/ECMAFix'], function() {
+    "use strict";
+
+    define(['engine/Class'], function(Class) {
+
 
         /**
          * A convenient object container.
-         * 
+         *
          * @constructor
          * @returns {undefined}
          */
-        function Container() {
-            Container.super.constructor.call(this);
+        var Container = new Class('Container', function () {
             this.items = [];
             this.names = [];
             this.links = {};
-            this.block;
-            this.cache;
-        }
-
-        Container.extend(Object);
+            this.block = false;
+            this.cache = null;
+        });
 
 
         /**
