@@ -29,13 +29,15 @@
          */
         Container.prototype.add = function(item, name) {
             var id = this.items.push(item) - 1;
-            if (!name && typeof item === "string") {
-                name = item;
+            var _name = name;
+
+            if (!_name && typeof item === "string") {
+                _name = item;
             }
-            if (name) {
-                name = String(name);
-                this.links[name] = id;
-                this.names[id] = name;
+            if (_name) {
+                _name = String(_name);
+                this.links[_name] = id;
+                this.names[id] = _name;
             }
             return id;
         };
@@ -54,10 +56,11 @@
                 id = item >= this.items.length ? -1 : item;
 
             } else if (typeof item === 'string') {
-                if (item in this.links) {
+                if (this.links.hasOwnProperty(item)) {
                     id = this.links[item];
-                } else
+                } else {
                     id = -1;
+                }
 
             } else {
                 id = this.items.indexOf(item);
@@ -94,10 +97,10 @@
             if (id !== -1) {
                 id = after ? id + 1 : id;
                 this.items.splice(id, 0, item);
-                if (name)
+                if (name) {
                     this.links[name] = id;
+                }
                 return item;
-
             }
         };
 
