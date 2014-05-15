@@ -89,7 +89,70 @@
                 expect(container.nameOf('not found')).not.toBeDefined();
             });
 
+            it('can insert items in the container', function() {
+                var container = new Container();
+                var first = {foo: 'first'},
+                    second = {foo: 'second'},
+                    third = {foo: 'third'},
+                    zeroth = {foo: 'zeroth'};
 
+                expect(container.add).toBeDefined();
+                container.add({foo: 'bar'});
+                container.add({foo: 'bar'});
+
+                expect(container.insert).toBeDefined();
+                expect(container.indexOf).toBeDefined();
+
+                // Insert at given index (with name):
+                container.insert(1, first, {name: 'first'});
+                expect(container.indexOf(first)).toBe(1);
+
+                // Insert after given index:
+                container.insert(1, second, {after: true});
+                expect(container.indexOf(second)).toBe(2);
+
+                // Insert after given reference:
+                container.insert(second, third, {after: true});
+                expect(container.indexOf(third)).toBe(3);
+
+                // Insert before given reference by name:
+                container.insert('first', zeroth);
+                expect(container.indexOf(zeroth)).toBe(1);
+            });
+
+            it('can remove items from the container', function() {
+                var container = new Container();
+                var first = {foo: 'first'},
+                    second = {foo: 'second'},
+                    third = {foo: 'third'},
+                    last = {foo: 'last'};
+
+                expect(container.add).toBeDefined();
+                container.add(first, 'first');
+                container.add(second);
+                container.add(third);
+                container.add(last);
+
+                expect(container.remove).toBeDefined();
+
+                // Remove by reference:
+                expect(container.indexOf(second)).toBe(1);
+                container.remove(second);
+                expect(container.indexOf(second)).toBe(-1);
+                //expect(container.count()).toBe(3);
+
+                // Remove by index:
+                expect(container.indexOf(third)).toBe(2);
+                container.remove(2);
+                expect(container.indexOf(third)).toBe(-1);
+                //expect(container.count()).toBe(2);
+
+                // Remove by name:
+                expect(container.indexOf(first)).toBe(0);
+                container.remove('first');
+                expect(container.indexOf(first)).toBe(-1);
+                //expect(container.count()).toBe(1);
+            });
         });
     });
 }());
