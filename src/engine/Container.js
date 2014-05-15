@@ -87,18 +87,22 @@
          *
          * @param {(number|string|Object)} reference Reference item, id or name.
          * @param {Object} item The item that will be inserted.
-         * @param {string} name Optional name for the item.
-         * @param {boolean} after Pass true to insert after the reference item, or false to insert before the reference object.
+         * @param {Object} options Optional parameters:
+         * @param {string} options.name Optional name for the item.
+         * @param {boolean} options.after Pass true to insert after the reference item,
+         *                                or false to insert before the reference object.
          * @returns {(Object|undefined)} The item or undefined if the reference item is not found.
          */
-        Container.prototype.insert = function(reference, item, name, after) {
+        Container.prototype.insert = function(reference, item, options) {
+            options = options || {};
+
             var id = this.indexOf(reference);
 
             if (id !== -1) {
-                id = after ? id + 1 : id;
+                id = options.after ? id + 1 : id;
                 this.items.splice(id, 0, item);
-                if (name) {
-                    this.links[name] = id;
+                if (options.name) {
+                    this.links[options.name] = id;
                 }
                 return item;
             }
