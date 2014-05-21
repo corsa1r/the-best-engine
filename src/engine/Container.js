@@ -134,11 +134,12 @@
          * @returns {Array} Array of call results.
          */
         Container.prototype.invoke = function(/* method, ... */) {
-            var results = new Array(this.items.length);
+            var results = [];
             var _arguments = Array.prototype.slice.call(arguments);
             var method = _arguments.shift();
 
-            for (var id = 0, length = this.items.length; id < length; id++) {
+            var id, length;
+            for (id = 0, length = this.items.length; id < length; id += 1) {
                 if (this.items[id] && typeof this.items[id][method] === 'function') {
                     results[id] = this.items[id][method].apply(this.items[id], _arguments);
                 }
@@ -154,8 +155,9 @@
          * @returns {Array} Array of call results.
          */
         Container.prototype.call = function(/* ... */) {
-            var results = new Array(this.items.length);
-            for (var id = 0, length = this.items.length; id < length; id++) {
+            var results = [];
+            var id, length;
+            for (id = 0, length = this.items.length; id < length; id += 1) {
                 if (typeof this.items[id] === 'function') {
                     results[id] = this.items[id].apply(this.items[id], arguments);
                 } else {
@@ -177,8 +179,9 @@
          * @returns {Array} Array of call results.
          */
         Container.prototype.apply = function(_arguments) {
-            var results = new Array(this.items.length);
-            for (var id = 0, length = this.items.length; id < length; id++) {
+            var results = [];
+            var id, length;
+            for (id = 0, length = this.items.length; id < length; id += 1) {
                 if (typeof this.items[id] === 'function') {
                     results[id] = this.items[id].apply(this.items[id], _arguments);
                 } else {
@@ -200,10 +203,12 @@
          * @returns {boolean} True on success, false on halt.
          */
         Container.prototype.each = function(procedure) {
-            for (var id = 0, length = this.items.length; id < length; id++) {
+            var id, length;
+            for (id = 0, length = this.items.length; id < length; id += 1) {
                 if (this.items[id]) {
-                    if (procedure(this.items[id], id, this.nameOf(id)) === false)
+                    if (procedure(this.items[id], id, this.nameOf(id)) === false) {
                         return false;
+                    }
                 }
             }
             return true;
@@ -248,11 +253,12 @@
          * @returns {undefined}
          */
         Container.prototype.empty = function() {
-            for (var id = 0, length = this.items.length; id < length; id++) {
+            var id, length;
+            for (id = 0, length = this.items.length; id < length; id += 1) {
                 this.remove(id);
             }
         };
 
         return Container;
     });
-})();
+}());
