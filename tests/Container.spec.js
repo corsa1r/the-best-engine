@@ -139,19 +139,86 @@
                 expect(container.indexOf(second)).toBe(1);
                 container.remove(second);
                 expect(container.indexOf(second)).toBe(-1);
-                //expect(container.count()).toBe(3);
 
                 // Remove by index:
                 expect(container.indexOf(third)).toBe(2);
                 container.remove(2);
                 expect(container.indexOf(third)).toBe(-1);
-                //expect(container.count()).toBe(2);
 
                 // Remove by name:
                 expect(container.indexOf(first)).toBe(0);
                 container.remove('first');
                 expect(container.indexOf(first)).toBe(-1);
-                //expect(container.count()).toBe(1);
+            });
+
+            it('can invoke methods of contained objects', function() {
+                var container = new Container();
+                var first = {method: jasmine.createSpy('first.method')},
+
+                    spySecond = jasmine.createSpy('second.method.spy'),
+                    second = {method: function() {
+                        spySecond(this, arguments);
+                    }},
+
+                    third = {method: 'is not a function'},
+                    last = {field: 'has no method'};
+
+                expect(container.add).toBeDefined();
+                container.add(first);
+                container.add(second);
+                container.add(third);
+                container.add(last);
+
+                expect(container.invoke).toBeDefined();
+                container.invoke('method', 'foo', 'bar', 42);
+                expect(first.method).toHaveBeenCalledWith('foo', 'bar', 42);
+                expect(spySecond).toHaveBeenCalledWith(second, ['foo', 'bar', 42]);
+            });
+
+            it('can call all contained functions', function() {
+                var container = new Container();
+                var first = jasmine.createSpy('first'),
+                    second = jasmine.createSpy('second'),
+                    third = {is: 'not a function'},
+                    last = new Container();
+                var another = jasmine.createSpy('another');
+
+                expect(container.add).toBeDefined();
+                container.add(first);
+                container.add(second);
+                container.add(third);
+                container.add(last);
+                last.add(another);
+
+                expect(container.invoke).toBeDefined();
+                container.call('foo', 'bar', 42);
+                expect(first).toHaveBeenCalledWith('foo', 'bar', 42);
+                expect(second).toHaveBeenCalledWith('foo', 'bar', 42);
+                expect(another).toHaveBeenCalledWith('foo', 'bar', 42);
+                expect(another.callCount).toBe(1);
+            });
+
+            it('can apply arguments to all contained functions', function() {
+                var container = new Container();
+                var first = jasmine.createSpy('first'),
+                    second = jasmine.createSpy('second'),
+                    third = {is: 'not a function'},
+                    last = new Container();
+                var another = jasmine.createSpy('another');
+
+                expect(container.add).toBeDefined();
+                container.add(first);
+                container.add(second);
+                container.add(third);
+                container.add(last);
+                last.add(another);
+
+                expect(container.invoke).toBeDefined();
+                container.apply(['foo', 'bar', 42]);
+                expect(first).toHaveBeenCalledWith('foo', 'bar', 42);
+                expect(second).toHaveBeenCalledWith('foo', 'bar', 42);
+                expect(another).toHaveBeenCalledWith('foo', 'bar', 42);
+                expect(another.callCount).toBe(1);
             });
         });
     });
