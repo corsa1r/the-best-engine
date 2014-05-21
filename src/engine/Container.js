@@ -118,9 +118,11 @@
         Container.prototype.remove = function(item) {
             var id = this.indexOf(item);
             if (id !== -1) {
-                delete this.links[this.names[id]];
                 delete this.items[id];
-                delete this.names[id];
+                if (this.names[id] !== undefined) {
+                    delete this.links[this.names[id]];
+                    delete this.names[id];
+                }
             }
         };
 
