@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/EventSet'], function(EventSet) {
+    define(['src/engine/EventSet'], function(EventSet) {
         /**
          * @file Implements Container.
          * @author CORSAIR <vladimir.corsair@gmail.com>

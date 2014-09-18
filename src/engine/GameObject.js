@@ -1,41 +1,35 @@
-(function() {
-    define(function() {
+;(function() {
 
-        function GameObject() {
-        }
+    define([
+        'src/engine/EventSet',
+        'src/engine/Subject',
+        'src/engine/Container',
+        'src/engine/physics/Vector'
+    ], function(EventSet, Subject, Container, Vector) {
 
-        GameObject.prototype.repr = function(repr) {
-            for (var x in repr) {
-                this[x] = repr[x];
-            }
+        var GameObject = function() {
+            GameObject.super.constructor.call(this);
+            
+            this.position = new Vector();
+            this.size = new Vector();
+            
+            this.states = new Container();
+            this.subject = new Subject(this);
 
-            return this;
+            this.subject.on('changes', (function(newState, starting) {
+                this.states[starting ? 'add' : 'remove'](newState);
+            }).bind(this));
         };
+        
+        GameObject.extend(EventSet);
 
-        GameObject.prototype.getRepr = function() {
-            if (this.networkClassName) {
-                var obj = {};
-
-                obj.networkClassName = this.networkClassName;
-
-                for (var x in this.networkDependenciesAsset) {
-                    if (this.networkDependenciesAsset.hasOwnProperty(x)) {
-                        obj[this.networkDependenciesAsset[x]] = this[this.networkDependenciesAsset[x]];
-                    }
-                }
-
-                return obj;
-            }
-
-            return null;
-        };
-
-        GameObject.prototype.setNetworkDependenciesAsset = function(asset) {
-            this.networkDependenciesAsset = asset;
-            return this;
-        };
-
-        GameObject.prototype.networkDependenciesAsset = [];
+        /**
+        * Abstract methods
+        */
+        GameObject.prototype.init = function () {};
+        GameObject.prototype.update = function () {};
+        GameObject.prototype.draw = function () {};
+        GameObject.prototype.destroy = function () {};
 
         return GameObject;
     });

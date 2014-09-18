@@ -1,5 +1,5 @@
 (function() {
-    define(['engine/EventSet'], function(EventSet) {
+    define(['src/engine/EventSet'], function(EventSet) {
         /*
          * A GameLoop object.
          * 
@@ -30,8 +30,9 @@
 
 
         GameLoop.prototype.loop = function() {
-            var now = (new Date()).getTime(),
-                    delta = now - this.time;
+            var now = Date.now();
+            var delta = now - this.time;
+        
             this.time = now;
 
             this.each((function(step) {

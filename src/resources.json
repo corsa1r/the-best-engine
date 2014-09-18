@@ -1,0 +1,13 @@
+{
+    "folders" : {
+        "images" : [
+            {
+               "name" : "rocket",
+               "src"  : "img/rocket.png"
+            }
+        ],
+        "sounds" : [
+            
+        ]
+    }
+}
