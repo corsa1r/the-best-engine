@@ -54,7 +54,7 @@
 			//Feeds maps
 			mouse.on('output', mouseStateMap.feed(MouseInput.buttonMap));
 			keyboard.on('output', keyboardStateMap.feed(KeyboardInput.keyMap));
-			touch.on('output', touchStateMap.feed(KeyboardInput.eventsMap));
+			touch.on('output', touchStateMap.feed(TouchInput.eventsMap));
 
 			mouseStateMap.on('output', (function(event) {
 				this.triggerEvent('mouse', event);
