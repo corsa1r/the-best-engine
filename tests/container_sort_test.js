@@ -8,6 +8,17 @@ define(['src/engine/Container'], function(Container) {
 		this.zindex = zindex;
 	};
 
+	/*
+	something.prototype.init = function(scene) {
+		this.scene = scene;
+	}
+
+	something.prototype.setZindex = function(zindex) {
+		this.zindex = zindex;
+		this.scene.sort('zindex', true);
+	}
+	*/
+
 	var c = new Container();
 
 	c.add(new something(3));
