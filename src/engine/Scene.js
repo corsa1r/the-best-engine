@@ -1,27 +1,32 @@
 ;
-(function() {
+(function () {
 
     "use strict";
 
     define([
         'src/engine/EventSet',
         'src/engine/Container',
+        'src/engine/helpers/AdvancedContainer',
         'src/engine/GameLoop',
         'src/engine/Screen',
         'src/engine/GameObject',
         'src/engine/Camera',
         'src/engine/helpers/resources/ResourceLoader',
         'src/lib/q'
-    ], function(EventSet, Container, GameLoop, Screen, GameObject, Camera, ResourceLoader, q) {
+    ], function (EventSet, Container, AdvancedContainer, GameLoop, Screen, GameObject, Camera, ResourceLoader, q) {
 
-        var Scene = function(canvas, width, height) {
+        var Scene = function (canvas, width, height) {
             Scene.super.constructor.call(this);
 
             this.resourceLoader = new ResourceLoader();
-            
+
             this.resources = null;
 
-            this.objects = new Container();
+            this.objects = new AdvancedContainer();
+
+            this.objects.setAdvancedOnAdd('init', 'init', this);
+            this.objects.setAdvancedOnRemove('destroy', 'destroy', this);
+
             this.gameLoop = new GameLoop();
 
             this.screen = new Screen(canvas);
@@ -35,24 +40,23 @@
 
         Scene.extend(EventSet);
 
-        Scene.prototype.$update = function(delta) {
-            this.objects.each((function(gameObject) {
+        Scene.prototype.$update = function (delta) {
+            this.objects.each((function (gameObject) {
                 if (gameObject instanceof GameObject) {
-                    if(!gameObject.resources || gameObject.resources !== this.resources) {
+                    if (!gameObject.resources || gameObject.resources !== this.resources) {
                         gameObject.resources = this.resources;
                     }
-                    
+
                     gameObject.update(delta, this);
                     gameObject.fire('updated', delta, this);
                 }
             }).bind(this));
         };
 
-        Scene.prototype.$draw = function(delta) {
-
+        Scene.prototype.$draw = function (delta) {
             this.screen.context.clearRect(0, 0, this.screen.canvas.width, this.screen.canvas.height);
 
-            this.objects.each((function(gameObject) {
+            this.objects.each((function (gameObject) {
                 if (gameObject instanceof GameObject) {
                     if (this.camera.inViewPort(gameObject.position.x, gameObject.position.y, gameObject.size.x, gameObject.size.y)) {
                         gameObject.draw(this.screen, this.camera, delta);
@@ -62,10 +66,10 @@
             }).bind(this));
         };
 
-        Scene.prototype.findObjectsByClass = function(ClassRef) {
+        Scene.prototype.findObjectsByClass = function (ClassRef) {
             var objects = new Container();
 
-            this.objects.each((function(gameObjectRef) {
+            this.objects.each((function (gameObjectRef) {
                 if (gameObjectRef instanceof ClassRef) {
                     objects.add(gameObjectRef);
                 }
@@ -73,23 +77,23 @@
 
             return objects;
         };
-        
+
         Scene.prototype.init = function () {
             var defer = q.defer();
-            
+
             this.fire('init.start');
-            
+
             this.resourceLoader.on('load.one', (function (resourceFile, percents) {
                 this.fire('init.progress', resourceFile, percents);
                 defer.notify(resourceFile, percents);
             }).bind(this));
-            
+
             this.resourceLoader.load().then((function ($resources) {
                 this.resources = $resources;
                 this.fire('init.end');
                 defer.resolve(this);
-            }).bind(this));
-            
+            }).bind(this), defer.reject);
+
             return defer.promise;
         };
 

@@ -39,7 +39,6 @@
             return item;
         };
 
-
         /**
          * Return the index of given reference item.
          * 
@@ -109,6 +108,7 @@
          */
         Container.prototype.remove = function(item) {
             var id = this.indexOf(item);
+
             if (id !== -1) {
                 delete this.links[this.names[id]];
                 delete this.items[id];
@@ -238,9 +238,47 @@
          * @returns {undefined}
          */
         Container.prototype.empty = function() {
-            for (var id = 0, length = this.items.length; id < length; id++) {
-                this.remove(id);
+            this.items = [];
+            this.names = [];
+            this.links = {};
+            this.block;
+            this.cache;
+
+            return this;
+        };
+
+        Container.prototype.sort = function(field, asc) {
+            var copy = [];
+
+            this.each(function(item, id, name) {
+                var rowItem = {
+                    name: name,
+                    item: item
+                };
+
+                rowItem[field] = item[field] || 0;
+
+                copy.push(rowItem);
+
+            });
+
+            copy.sort(function(a, b) {
+                if(a[field] < b[field]) {
+                    return asc ? -1 : 1;
+                } else {
+                    return asc ? 1 : -1;
+                }
+
+                return 0;
+            });
+
+            this.empty();
+
+            for(var i in copy) {
+                this.add(copy[i].item, copy[i].name);
             }
+
+            return this;
         };
 
         return Container;

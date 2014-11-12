@@ -80,9 +80,14 @@
          * @param {*} name
          * @returns undefined
          */
-        AdvancedContainer.prototype.add = function (item, name) {
+        AdvancedContainer.prototype.add = function (item, name, sortField, sortAsc) {
             AdvancedContainer.super.add.call(this, item, name);
+            this.sort(sortField || 'zindex', Boolean(sortAsc));
             this.$callAdvances(item, 'on.add');
+        };
+
+        AdvancedContainer.prototype.sort = function(field, asc) {
+            AdvancedContainer.super.sort.call(this, field, asc);
         };
         
         /**
