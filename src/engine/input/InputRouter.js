@@ -25,9 +25,10 @@
 	define([
 		'src/engine/input/KeyboardInput',
 		'src/engine/input/MouseInput',
+		'src/engine/input/TouchInput',
 		'src/engine/input/StateMap',
 		'src/engine/input/InputSet'
-		], function(KeyboardInput, MouseInput, StateMap, InputSet) {
+		], function(KeyboardInput, MouseInput, TouchInput, StateMap, InputSet) {
 		
 		var InputRouter = function(scene) {
 			this.editOn = true;
@@ -41,12 +42,14 @@
 		 */
 		InputRouter.prototype.initInputs = function(scene) {
 			//Init input sources
-			var mouse = new MouseInput(scene.screen);
+			var mouse    = new MouseInput(scene.screen);
 			var keyboard = new KeyboardInput();
+			var touch    = new TouchInput();
 			
 			//Init StateMaps
-			var mouseStateMap = new StateMap();
+			var mouseStateMap    = new StateMap();
 			var keyboardStateMap = new StateMap();
+			var touchStateMap    = new StateMap();
 	
 			//Feeds maps
 			mouse.on('output', mouseStateMap.feed(MouseInput.buttonMap));
@@ -58,6 +61,10 @@
 
 			keyboardStateMap.on('output', (function(event) {
 				this.triggerEvent('keyboard', event);
+			}).bind(this));
+			
+			touchStateMap.on('output', (function(event) {
+				this.triggerEvent('touch', event);
 			}).bind(this));
 
 			this.client = new InputSet();
