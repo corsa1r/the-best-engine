@@ -30,8 +30,6 @@
 		], function(KeyboardInput, MouseInput, StateMap, InputSet) {
 		
 		var InputRouter = function(scene) {
-			InputRouter.super.constructor.call(this);
-
 			this.editOn = true;
 			this.initInputs(scene);
 		};
