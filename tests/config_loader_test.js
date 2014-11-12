@@ -5,6 +5,8 @@ require.config({
 define(['src/engine/helpers/ConfigLoader'], function(ConfigLoader) {
 
 	var cl = new ConfigLoader();
-
-	cl.load();
+	
+	cl.load().then(function(config) {
+		
+	});
 });

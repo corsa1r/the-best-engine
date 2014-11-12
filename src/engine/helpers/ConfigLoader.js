@@ -17,7 +17,7 @@
 				defer.resolve(JSON.parse(response));
 			}, defer.reject);
 
-			return defer.primise;
+			return defer.promise;
 		};
 
 		return ConfigLoader;
