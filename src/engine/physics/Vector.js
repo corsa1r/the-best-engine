@@ -23,6 +23,16 @@
             return this;
         };
 
+        Vector.prototype.append = function(x, y) {
+            this.x += x || 0;
+            this.y += y || 0;
+
+            return this;
+        };
+
+        Vector.prototype.appendClone = function(x, y) {
+            return this.clone().append(x, y);
+        };
 
         Vector.prototype.copy = function(vector) {
             this.x = vector.x;
@@ -74,7 +84,7 @@
 
 
         Vector.prototype.diff = function(vector) {
-            return Math.sqrt(this.diff(vector));
+            return Math.sqrt(this.diff2(vector));
         };
 
 

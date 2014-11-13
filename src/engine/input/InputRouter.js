@@ -44,7 +44,7 @@
 			//Init input sources
 			var mouse    = new MouseInput(scene.screen);
 			var keyboard = new KeyboardInput();
-			var touch    = new TouchInput();
+			var touch    = new TouchInput(scene.screen);
 			
 			//Init StateMaps
 			var mouseStateMap    = new StateMap();
@@ -56,20 +56,26 @@
 			keyboard.on('output', keyboardStateMap.feed(KeyboardInput.keyMap));
 			touch.on('output', touchStateMap.feed(TouchInput.eventsMap));
 
+			mouse.on('move', (function(event) {
+				this.triggerEvent('move', 'mouse', event);
+			}).bind(this));
+
 			mouseStateMap.on('output', (function(event) {
-				this.triggerEvent('mouse', event);
+				this.triggerEvent('output', 'mouse', event);
 			}).bind(this));
 
 			keyboardStateMap.on('output', (function(event) {
-				this.triggerEvent('keyboard', event);
+				this.triggerEvent('output', 'keyboard', event);
 			}).bind(this));
 			
 			touchStateMap.on('output', (function(event) {
-				this.triggerEvent('touch', event);
+				this.triggerEvent('output', 'touch', event);
 			}).bind(this));
 
 			this.client = new InputSet();
 			this.editor = new InputSet();
+
+
 		};
 		
 		/**
@@ -80,8 +86,8 @@
 		 * @param {Object} event - this is output event from the input source
 		 * returns undefined
 		 */
-		InputRouter.prototype.triggerEvent = function(inputType, event) {
-			this[this.editOn ? 'editor' : 'client'][inputType].fire('output', event);
+		InputRouter.prototype.triggerEvent = function(eventName, inputType, event) {
+			this[this.editOn ? 'editor' : 'client'][inputType].fire(eventName, event);
 		};
 
 		return InputRouter;

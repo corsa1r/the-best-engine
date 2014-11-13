@@ -12,8 +12,9 @@
         'src/engine/GameObject',
         'src/engine/Camera',
         'src/engine/helpers/resources/ResourceLoader',
-        'src/lib/q'
-    ], function (EventSet, Container, AdvancedContainer, GameLoop, Screen, GameObject, Camera, ResourceLoader, q) {
+        'src/lib/q',
+        'src/engine/physics/Physics'
+    ], function (EventSet, Container, AdvancedContainer, GameLoop, Screen, GameObject, Camera, ResourceLoader, q, Physics) {
 
         var Scene = function (canvas, width, height) {
             Scene.super.constructor.call(this);
@@ -36,11 +37,15 @@
 
             this.gameLoop.on('update', this.$update.bind(this));
             this.gameLoop.on('draw', this.$draw.bind(this));
+            this.physics = new Physics(this);
         };
 
         Scene.extend(EventSet);
 
         Scene.prototype.$update = function (delta) {
+            
+            this.physics.world.step(delta);
+
             this.objects.each((function (gameObject) {
                 if (gameObject instanceof GameObject) {
                     if (!gameObject.resources || gameObject.resources !== this.resources) {

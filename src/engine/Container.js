@@ -281,6 +281,16 @@
             return this;
         };
 
+        Container.prototype.len = function() {
+            var len = 0;
+
+            this.each(function() {
+                len++;
+            });
+            
+            return len;
+        };
+
         return Container;
     });
 })();

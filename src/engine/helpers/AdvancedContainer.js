@@ -6,7 +6,7 @@
  */
 ;(function () {
     
-    "use strict";
+    //"use strict";
     
     define(['src/engine/Container'], function (Container) {
         
@@ -80,14 +80,14 @@
          * @param {*} name
          * @returns undefined
          */
-        AdvancedContainer.prototype.add = function (item, name, sortField, sortAsc) {
+        AdvancedContainer.prototype.addSort = function (item, name, sortField, sortAsc) {
             AdvancedContainer.super.add.call(this, item, name);
             this.sort(sortField || 'zindex', Boolean(sortAsc));
             this.$callAdvances(item, 'on.add');
         };
 
-        AdvancedContainer.prototype.sort = function(field, asc) {
-            AdvancedContainer.super.sort.call(this, field, asc);
+        AdvancedContainer.prototype.sort = function(sortField, sortAsc) {
+            AdvancedContainer.super.sort.call(this, sortField, sortAsc);
         };
         
         /**
