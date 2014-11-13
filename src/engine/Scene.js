@@ -37,6 +37,7 @@
 
             this.gameLoop.on('update', this.$update.bind(this));
             this.gameLoop.on('draw', this.$draw.bind(this));
+            
             this.physics = new Physics(this);
         };
 

@@ -19,6 +19,8 @@
             this.subject.on('changes', (function(newState, starting) {
                 this.states[starting ? 'add' : 'remove'](newState);
             }).bind(this));
+
+            this.instanceofGameObject = true;
         };
         
         GameObject.extend(EventSet);

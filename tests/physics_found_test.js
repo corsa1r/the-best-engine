@@ -8,8 +8,9 @@ define([
 	'src/engine/GameObject',
 	'src/engine/physics/Vector',
 	'src/editor/helpers/MouseSelection',
-	'src/editor/helpers/CameraController'
-	], function(Scene, InputRouter, GameObject, Vector, MouseSelection, CameraController) {
+	'src/editor/helpers/CameraController',
+	'src/editor/Editor'
+	], function(Scene, InputRouter, GameObject, Vector, MouseSelection, CameraController, Editor) {
 
 	function getRandomInt(min, max) {
 	    return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -41,9 +42,26 @@ define([
 	scene.objects.addSort(new Cube());
 	scene.objects.addSort(new Cube());
 	scene.objects.addSort(new Cube());
+	scene.objects.addSort(new Cube());
+	scene.objects.addSort(new Cube());
 
 	scene.gameLoop.start();
 
-	new MouseSelection(scene, inputRouter);
+	var editor = new Editor(scene, inputRouter);
+
+	/*
+
+	var selection = new MouseSelection(scene, inputRouter);
 	new CameraController(scene, inputRouter)
+
+	selection.on('selected', function(selectedObjects) {
+		
+		console.warn('--------------------------------------------------');
+
+		selectedObjects.each(function(object) {
+			console.info(object);
+		});
+	});
+
+	*/
 });
