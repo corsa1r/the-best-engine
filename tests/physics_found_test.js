@@ -7,10 +7,8 @@ define([
 	'src/engine/input/InputRouter',
 	'src/engine/GameObject',
 	'src/engine/physics/Vector',
-	'src/editor/helpers/MouseSelection',
-	'src/editor/helpers/CameraController',
-	'src/editor/Editor'
-	], function(Scene, InputRouter, GameObject, Vector, MouseSelection, CameraController, Editor) {
+	'src/editor/SceneEditor'
+	], function(Scene, InputRouter, GameObject, Vector, SceneEditor) {
 
 	function getRandomInt(min, max) {
 	    return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -47,21 +45,5 @@ define([
 
 	scene.gameLoop.start();
 
-	var editor = new Editor(scene, inputRouter);
-
-	/*
-
-	var selection = new MouseSelection(scene, inputRouter);
-	new CameraController(scene, inputRouter)
-
-	selection.on('selected', function(selectedObjects) {
-		
-		console.warn('--------------------------------------------------');
-
-		selectedObjects.each(function(object) {
-			console.info(object);
-		});
-	});
-
-	*/
+	var editor = new SceneEditor(scene, inputRouter);
 });

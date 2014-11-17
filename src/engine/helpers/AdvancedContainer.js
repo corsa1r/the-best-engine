@@ -82,8 +82,16 @@
          */
         AdvancedContainer.prototype.addSort = function (item, name, sortField, sortAsc) {
             AdvancedContainer.super.add.call(this, item, name);
-            this.sort(sortField || 'zindex', Boolean(sortAsc));
+            this.sort(sortField || 'zindex', !Boolean(sortAsc));
             this.$callAdvances(item, 'on.add');
+        };
+
+        AdvancedContainer.prototype.attach = function(item, name, sortField, sortAsc) {
+            this.addSort(item, name, sortField, sortAsc);
+        };
+
+        AdvancedContainer.prototype.detach = function(what) {
+            this.remove(what);
         };
 
         AdvancedContainer.prototype.sort = function(sortField, sortAsc) {

@@ -291,6 +291,27 @@
             return len;
         };
 
+        Container.prototype.first = function() {
+            var firstItem = null;
+
+            this.each(function(item) {
+                firstItem = item;
+                return false;
+            });
+
+            return firstItem;
+        };
+
+        Container.prototype.last = function() {
+            var lastItem = null;
+
+            this.each(function(item) {
+                lastItem = item;
+            });
+
+            return lastItem;
+        };
+
         return Container;
     });
 })();

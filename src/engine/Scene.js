@@ -37,7 +37,6 @@
 
             this.gameLoop.on('update', this.$update.bind(this));
             this.gameLoop.on('draw', this.$draw.bind(this));
-            
             this.physics = new Physics(this);
         };
 
@@ -54,6 +53,11 @@
                     }
 
                     gameObject.update(delta, this);
+
+                    gameObject.components.each((function(component) {
+                        component.update(delta, this);
+                    }).bind(this));
+
                     gameObject.fire('updated', delta, this);
                 }
             }).bind(this));
@@ -66,6 +70,11 @@
                 if (gameObject instanceof GameObject) {
                     if (this.camera.inViewPort(gameObject.position.x, gameObject.position.y, gameObject.size.x, gameObject.size.y)) {
                         gameObject.draw(this.screen, this.camera, delta);
+
+                        gameObject.components.each((function(component) {
+                            component.draw(this.screen, this.camera, delta);
+                        }).bind(this));
+
                         gameObject.fire('drawed', delta, this.screen);
                     }
                 }
