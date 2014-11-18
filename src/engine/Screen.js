@@ -55,9 +55,9 @@
          * @param {type} y mouse y
          * @returns {Boolean}
          */
-        Screen.prototype.innerPoint = function(x, y) {
-            if (x >= 0 && y >= 0 && x < this.canvas.offsetWidth - (this.borderLeft << 1) &&
-                    y < this.canvas.offsetHeight - (this.borderTop << 1)) {
+        Screen.prototype.innerPoint = function(vector) {
+            if (vector.x >= 0 && vector.y >= 0 && vector.x < this.canvas.offsetWidth - (this.borderLeft << 1) &&
+                    vector.y < this.canvas.offsetHeight - (this.borderTop << 1)) {
                 return true;
             }
         };

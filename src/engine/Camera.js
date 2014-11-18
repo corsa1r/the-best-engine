@@ -4,18 +4,18 @@
  * 
  */
 (function() {
-    define(['src/engine/EventSet'], function(EventSet) {
+    define(['src/engine/EventSet', 'src/engine/physics/Vector'], function(EventSet, Vector) {
         var Camera = function(screen) {
             Camera.super.constructor.call(this);
             this.screen = screen;
-            this.x = 0;
-            this.y = 0;
+            
+            this.position = new Vector(0, 0);
         };
 
         Camera.extend(EventSet);
 
-        Camera.prototype.inViewPort = function(x, y, w, h) {
-            return Boolean(this.screen.innerPoint(x, y) || this.screen.innerPoint(x + w, y) || this.screen.innerPoint(x, y + h) || this.screen.innerPoint(x + w, y + h));
+        Camera.prototype.inViewPort = function(position, size) {
+            return Boolean(this.screen.innerPoint(position) || this.screen.innerPoint(size));
         };
 
         return Camera;

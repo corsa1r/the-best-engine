@@ -7,15 +7,15 @@
 		'src/editor/components/TopObjectComponent'
 		], function(SceneEditorComponent, Vector, Container, TopObjectComponent) {
 
-		var MouseObjectsFinderComponent = function() {
-			MouseObjectsFinderComponent.super.constructor.call(this);
+		var ObjectsFinderComponent = function() {
+			ObjectsFinderComponent.super.constructor.call(this);
 
 			this.controllDown = false;
 		};
 
-		MouseObjectsFinderComponent.extend(SceneEditorComponent);
+		ObjectsFinderComponent.extend(SceneEditorComponent);
 
-		MouseObjectsFinderComponent.prototype.run = function() {
+		ObjectsFinderComponent.prototype.run = function() {
 			this.sceneEditor.input.keyboard.on('output', (function(event) {
 				if(event.which === 'CONTROL') {
 					this.controllDown = event.state;
@@ -24,10 +24,13 @@
 
 			this.sceneEditor.components.attach(new TopObjectComponent(), 'TopObjectComponent');
 
-			this.sceneEditor.input.mouse.on('output', (function(event) {
+			this.sceneEditor.input.touch.on('output', (function(event) {
 
-				if(!event.state && event.which === 'LMB') {
-					var found = this.sceneEditor.scene.physics.world.findObjects(new Vector(event.x, event.y));
+				if(event.type === 'tap') {
+					var eventPos = event.position.clone();
+					var cameraPos = this.sceneEditor.scene.camera.position.clone();
+
+					var found = this.sceneEditor.scene.physics.world.findObjects(eventPos.append(cameraPos));
 
 					if(found.len()) {
 						if(!this.controllDown) {
@@ -41,7 +44,7 @@
 			}).bind(this));
 		};
 
-		return MouseObjectsFinderComponent;
+		return ObjectsFinderComponent;
 	});
 			
 })();

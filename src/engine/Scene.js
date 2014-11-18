@@ -68,7 +68,8 @@
 
             this.objects.each((function (gameObject) {
                 if (gameObject instanceof GameObject) {
-                    if (this.camera.inViewPort(gameObject.position.x, gameObject.position.y, gameObject.size.x, gameObject.size.y)) {
+                    //Append camera in viewport
+                    // if (this.camera.inViewPort(gameObject.position.clone().append(this.camera.position), gameObject.size)) {
                         gameObject.draw(this.screen, this.camera, delta);
 
                         gameObject.components.each((function(component) {
@@ -76,7 +77,7 @@
                         }).bind(this));
 
                         gameObject.fire('drawed', delta, this.screen);
-                    }
+                    // }
                 }
             }).bind(this));
         };
@@ -91,6 +92,18 @@
             }).bind(this));
 
             return objects;
+        };
+
+        Scene.prototype.findObjectsByComponent = function (componentName) {
+            var objects = new Container();
+
+            this.objects.each(function (gameObject) {
+                if(gameObject.components.has(componentName)) {
+                    objects.add(gameObject);
+                }
+            })
+
+            return objects;  
         };
 
         Scene.prototype.init = function () {

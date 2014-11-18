@@ -22,13 +22,13 @@
 			screen.context.save();
 			screen.context.fillStyle = 'green';
 			screen.context.globalCompositeOperation = 'xor';
-			screen.context.fillRect(this.gameObject.position.x - 2 * this.w, this.gameObject.position.y - this.w * 2, this.w, this.gameObject.size.y + this.w * 4);
-			screen.context.fillRect(this.gameObject.position.x + this.gameObject.size.x + this.w, this.gameObject.position.y - this.w * 2, this.w, this.gameObject.size.y + this.w * 4);
-			screen.context.fillRect(this.gameObject.position.x - 2 * this.w, this.gameObject.position.y - this.w * 2, this.gameObject.size.x + 4 * this.w, this.w);
-			screen.context.fillRect(this.gameObject.position.x - 2 * this.w, this.gameObject.position.y + this.gameObject.size.y + this.w, this.gameObject.size.x + 4 * this.w, this.w);
+			screen.context.fillRect(this.gameObject.position.x - 2 * this.w - camera.position.x, this.gameObject.position.y - this.w * 2 - camera.position.y, this.w, this.gameObject.size.y + this.w * 4);
+			screen.context.fillRect(this.gameObject.position.x + this.gameObject.size.x + this.w - camera.position.x, this.gameObject.position.y - this.w * 2 - camera.position.y, this.w, this.gameObject.size.y + this.w * 4);
+			screen.context.fillRect(this.gameObject.position.x - 2 * this.w - camera.position.x, this.gameObject.position.y - this.w * 2 - camera.position.y, this.gameObject.size.x + 4 * this.w, this.w);
+			screen.context.fillRect(this.gameObject.position.x - 2 * this.w - camera.position.x, this.gameObject.position.y + this.gameObject.size.y + this.w - camera.position.y, this.gameObject.size.x + 4 * this.w, this.w);
 			
 			var center = this.gameObject.components.get('CenterComponent').get();
-			screen.context.arc(center.x, center.y, (center.x - this.gameObject.position.x) / 5, Math.PI * 2, false);
+			screen.context.arc(center.x - camera.position.x, center.y - camera.position.y, (center.x - this.gameObject.position.x) / 5, Math.PI * 2, false);
 			screen.context.fill();
 			screen.context.restore();
 		};

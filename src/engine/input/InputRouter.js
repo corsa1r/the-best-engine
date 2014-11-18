@@ -49,12 +49,10 @@
 			//Init StateMaps
 			var mouseStateMap    = new StateMap();
 			var keyboardStateMap = new StateMap();
-			var touchStateMap    = new StateMap();
 	
 			//Feeds maps
 			mouse.on('output', mouseStateMap.feed(MouseInput.buttonMap));
 			keyboard.on('output', keyboardStateMap.feed(KeyboardInput.keyMap));
-			touch.on('output', touchStateMap.feed(TouchInput.eventsMap));
 
 			mouse.on('move', (function(event) {
 				this.triggerEvent('move', 'mouse', event);
@@ -68,7 +66,7 @@
 				this.triggerEvent('output', 'keyboard', event);
 			}).bind(this));
 			
-			touchStateMap.on('output', (function(event) {
+			touch.on('output', (function(event) {
 				this.triggerEvent('output', 'touch', event);
 			}).bind(this));
 

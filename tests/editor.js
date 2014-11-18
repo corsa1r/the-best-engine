@@ -11,8 +11,9 @@ define([
 	'src/engine/input/InputRouter',
 	'src/engine/physics/Vector',
 	'src/engine/Container',
-	'src/editor/components/MouseObjectsFinderComponent'
-	], function(Scene, SceneEditor, GameObject, GameObjectComponent, CenterComponent, InputRouter, Vector, Container, MouseObjectsFinderComponent) {
+	'src/editor/components/ObjectsFinderComponent',
+	'src/editor/components/ObjectDraggableComponent'
+	], function(Scene, SceneEditor, GameObject, GameObjectComponent, CenterComponent, InputRouter, Vector, Container, ObjectsFinderComponent, ObjectDraggableComponent) {
 		
 	var canvas = document.getElementById('canvas');
 	var scene = new Scene(canvas, 500, 500);
@@ -20,8 +21,8 @@ define([
 
 	var editor = new SceneEditor(scene, inputRouter);
 
-	editor.components.attach(new MouseObjectsFinderComponent(), 'MouseObjectsFinderComponent');
-
+	editor.components.attach(new ObjectsFinderComponent(), 'ObjectsFinderComponent');
+	editor.components.attach(new ObjectDraggableComponent(), 'ObjectDraggableComponent');
 
 	
 	var Cube = function(zindex, x, y) {
@@ -46,13 +47,15 @@ define([
 	};
 
 	Cube.prototype.draw = function(screen, camera) {
+		// console.log('draw')
+		//camera.position.x += 0.1;
 		screen.context.save();
 		screen.context.beginPath();
 		screen.context.fillStyle = this.c;
-		screen.context.fillRect(this.position.x - camera.x, this.position.y - camera.y, this.size.x, this.size.y);
+		screen.context.fillRect(this.position.x - camera.position.x, this.position.y - camera.position.y, this.size.x, this.size.y);
 		screen.context.font = '40pt Calibri';
 		screen.context.fillStyle = 'red';
-		screen.context.fillText(this.zindex || 0, this.position.x + 5, this.position.y + 45);
+		screen.context.fillText(this.zindex || 0, this.position.x + 5 - camera.position.x, this.position.y + 45 - camera.position.y);
 		screen.context.restore();
 	};
 

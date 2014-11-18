@@ -4,15 +4,19 @@
  * @version test
  */
 
-(function () {
+;(function () {
     /**
      * Define module Touch input
      * @param {Object} EventSet
      * @param {Object} Hammer
      * @returns {_L5.TouchInput}
      */
-    define(['src/engine/EventSet', 'src/lib/Hammer'], function (EventSet, Hammer) {
-        
+    define([
+        'src/engine/EventSet',
+        'src/lib/Hammer',
+        'src/engine/physics/Vector'
+    ], function (EventSet, Hammer, Vector) {
+
         /**
          * Class Touch input
          * @param {Object} screen - requires Screen
@@ -20,57 +24,45 @@
          * @returns {_L14.TouchInput}
          */
         function TouchInput(screen, options) {
-            EventSet.super.constructor.call(this);
+            TouchInput.super.constructor.call(this);
+
             this.screen = screen;
-            this.hummertime = Hammer(this.screen.canvas, options || {});
-            
-            //Handle the events from TouchInput.eventsMap
-            for (var key in TouchInput.eventsMap) {
-                if(TouchInput.eventsMap.hasOwnProperty(key)) {
-                    this.hummertime.on(key, (function (event) {
-                        this.configureEvent(event.gesture, event.type, true, Date.now());
-                        this.fire('output', event.gesture);
-                    }).bind(this));
+            var defaultOptions = {
+                cssProps: {
+                    tapHighlightColor: 'rgba(0,255,0,1)'
                 }
-            }
+            };
+
+            this.hammertime = new Hammer(this.screen.canvas, options || defaultOptions);
             
-            return this;
+            this.hammertime.on(TouchInput.eventsMap.join(' '), (function(event) {
+                if(this.screen.innerPoint(event.center)) {
+                    var center = this.screen.translate(event.center);
+
+                    var output = {
+                        position:   new Vector(center.x, center.y),
+                        angle:      event.angle,
+                        isFirst:    Boolean(event.isFirst),
+                        isFinal:    Boolean(event.isFinal),
+                        deltaTime:  event.deltaTime,
+                        time :      event.timeStamp,
+                        state :     !Boolean(event.isFinal),
+                        type:       event.type,
+                        original:   event
+                    };
+
+                    this.fire('output', output);
+                }
+            }).bind(this));
+
+
+            this.hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            this.hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
         }
         
-        TouchInput.extend(EventSet);// inherit
+        TouchInput.extend(EventSet);
         
-        TouchInput.prototype.configureEvent = function (event, which, state, time) {
-            event.which = which;
-            event.state = state;
-            event.time = time;
-        };
-        
-        TouchInput.eventsMap = {
-            hold:           'hold',
-            tap:            'tab',
-            doubletap:      'doubletap',
-            drag:           'drag',
-            dragstart:      'dragstart',
-            dragend:        'dragend',
-            dragup:         'dragup', 
-            dragdown:       'dragdown', 
-            dragleft:       'dragleft', 
-            dragright:      'dragright',
-            swipe:          'swipe', 
-            swipeup:        'swipeup', 
-            swipedown:      'swipedown', 
-            swipeleft:      'swipeleft', 
-            swiperight:     'swiperight',
-            transform:      'transform', 
-            transformstart: 'transformstart', 
-            transformend:   'transformend',
-            rotate:         'rotate',
-            pinch:          'pinch', 
-            pinchin:        'pinchin', 
-            pinchout:       'pinchout',
-            touch:          'touch',
-            release:        'release'
-        };
+        TouchInput.eventsMap = ['tap', 'doubletap', 'press', 'swipe', 'pan', 'panstart', 'panend', 'panmove'];
         
         return TouchInput;
     });

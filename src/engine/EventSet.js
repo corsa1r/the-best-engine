@@ -7,10 +7,22 @@
          */
         function EventSet() {
             EventSet.super.constructor.call(this);
+            this.$enabled = true;
         }
 
         EventSet.extend(Container);
 
+        EventSet.prototype.enable = function() {
+            this.$enabled = true;
+        };
+
+        EventSet.prototype.disable = function() {
+            this.$enabled = false;
+        };
+
+        EventSet.prototype.toggle = function() {
+            this.$enabled = !Boolean(this.$enabled);
+        };
 
         /**
          * Attaches event listener to event container. 
@@ -69,6 +81,10 @@
          * @returns {Array} Array of event listener results.
          */
         EventSet.prototype.fire = function(/* ... */) {
+            if(!this.$enabled) {
+                return false;
+            }
+
             var _arguments = Array.prototype.slice.call(arguments);
             var name = _arguments.shift();
             var event = this.get(name);

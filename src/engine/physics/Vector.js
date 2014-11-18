@@ -1,5 +1,4 @@
-;
-(function() {
+;(function() {
 
     "use strict";
 
@@ -24,8 +23,13 @@
         };
 
         Vector.prototype.append = function(x, y) {
-            this.x += x || 0;
-            this.y += y || 0;
+            if(x instanceof Vector) {
+                this.x += x.x;
+                this.y += x.y;
+            } else {
+                this.x += x || 0;
+                this.y += y || 0;
+            }
 
             return this;
         };
@@ -86,6 +90,10 @@
         Vector.prototype.diff = function(vector) {
             return Math.sqrt(this.diff2(vector));
         };
+
+        Vector.prototype.diffXY = function (vector) {
+            return new Vector(vector.x - this.x, vector.y - this.y);
+        }
 
 
         Vector.prototype.clone = function() {
