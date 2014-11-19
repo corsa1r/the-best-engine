@@ -12,8 +12,10 @@ define([
 	'src/engine/physics/Vector',
 	'src/engine/Container',
 	'src/editor/components/ObjectsFinderComponent',
-	'src/editor/components/ObjectDraggableComponent'
-	], function(Scene, SceneEditor, GameObject, GameObjectComponent, CenterComponent, InputRouter, Vector, Container, ObjectsFinderComponent, ObjectDraggableComponent) {
+	'src/editor/components/ObjectDraggableComponent',
+	'src/editor/components/CameraControllerComponent',
+	'src/editor/components/GameObjectInspectorComponent'
+	], function(Scene, SceneEditor, GameObject, GameObjectComponent, CenterComponent, InputRouter, Vector, Container, ObjectsFinderComponent, ObjectDraggableComponent, CameraControllerComponent, GameObjectInspectorComponent) {
 		
 	var canvas = document.getElementById('canvas');
 	var scene = new Scene(canvas, 500, 500);
@@ -23,8 +25,9 @@ define([
 
 	editor.components.attach(new ObjectsFinderComponent(), 'ObjectsFinderComponent');
 	editor.components.attach(new ObjectDraggableComponent(), 'ObjectDraggableComponent');
+	editor.components.attach(new CameraControllerComponent(), 'CameraControllerComponent');
+	editor.components.attach(new GameObjectInspectorComponent(), 'GameObjectInspectorComponent');
 
-	
 	var Cube = function(zindex, x, y) {
 		Cube.super.constructor.call(this);
 

@@ -27,6 +27,7 @@
             TouchInput.super.constructor.call(this);
 
             this.screen = screen;
+
             var defaultOptions = {
                 cssProps: {
                     tapHighlightColor: 'rgba(0,255,0,1)'
@@ -36,11 +37,14 @@
             this.hammertime = new Hammer(this.screen.canvas, options || defaultOptions);
             
             this.hammertime.on(TouchInput.eventsMap.join(' '), (function(event) {
-                if(this.screen.innerPoint(event.center)) {
-                    var center = this.screen.translate(event.center);
+                
+                var eventCenter = new Vector().copy(event.center);
+                var translateObject = {};
 
+                translateObject.position = eventCenter;
+                if(this.screen.innerPoint(eventCenter)) {
                     var output = {
-                        position:   new Vector(center.x, center.y),
+                        position:   this.screen.translate(translateObject).position,
                         angle:      event.angle,
                         isFirst:    Boolean(event.isFirst),
                         isFinal:    Boolean(event.isFinal),

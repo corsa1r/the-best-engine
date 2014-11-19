@@ -1,5 +1,5 @@
 (function() {
-    define(['src/engine/EventSet'], function(EventSet) {
+    define(['src/engine/EventSet', 'src/engine/physics/Vector'], function(EventSet, Vector) {
 
         /**
          * @file implements MouseInput
@@ -8,6 +8,9 @@
          * @version 2013.12.18
          */
 
+         var EVENT_MOVE = 'move';
+         var EVENT_UP   = 'output';
+         var EVENT_DOWN = 'output';
 
         /** 
          * MouseInput.
@@ -19,10 +22,12 @@
             MouseInput.super.constructor.call(this);
             this.screen = screen;
 
-            window.addEventListener('mouseup', this.fire.bind(this, 'output', false));
+            this.lastMousePosition = new Vector();
+
+            window.addEventListener('mouseup', this.fire.bind(this, EVENT_UP, false), false);
             // TODO: Canvas independent event handlilng.
-            screen.canvas.addEventListener('mousedown', this.fire.bind(this, 'output', true));
-            screen.canvas.addEventListener('mousemove', this.fire.bind(this, 'move', true));
+            screen.canvas.addEventListener('mousedown', this.fire.bind(this, EVENT_DOWN, true), false);
+            screen.canvas.addEventListener('mousemove', this.fire.bind(this, EVENT_MOVE, false), false);
         }
 
         MouseInput.extend(EventSet);
@@ -38,20 +43,27 @@
          */
         MouseInput.prototype.fire = function(name, state, event) {
             var command = this.screen.translate({
-                which: event.button !== undefined ? event.button : event.which,
+                which: event.button,
                 state: state,
                 time: Date.now(),
-                x: event.clientX,
-                y: event.clientY
+                position: new Vector(event.clientX, event.clientY)
             });
+
+            //Google Chrome fixes...
+            if(name === EVENT_MOVE && this.lastMousePosition.diff(command.position) === 0) {
+                return false;
+            }
+
+            this.lastMousePosition = command.position.clone();
+
+            event.preventDefault();
 
             // Won't fire the event if the state is 'pressed' and the pointer is outside
             // the area of interest. However it should fire the an 'release' event 
             // regardless of the pointer position to avoid a pressed state locking.
-            if (!state || this.screen.innerPoint(command.x, command.y)) {
+            if (!state || this.screen.innerPoint(command.position)) {
                 return MouseInput.super.fire.call(this, name, command);
             }
-
         };
 
 

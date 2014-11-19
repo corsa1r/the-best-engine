@@ -44,12 +44,14 @@
 			//Init input sources
 			var mouse    = new MouseInput(scene.screen);
 			var keyboard = new KeyboardInput();
+
 			var touch    = new TouchInput(scene.screen);
 			
 			//Init StateMaps
 			var mouseStateMap    = new StateMap();
 			var keyboardStateMap = new StateMap();
-	
+			
+			
 			//Feeds maps
 			mouse.on('output', mouseStateMap.feed(MouseInput.buttonMap));
 			keyboard.on('output', keyboardStateMap.feed(KeyboardInput.keyMap));
@@ -69,11 +71,9 @@
 			touch.on('output', (function(event) {
 				this.triggerEvent('output', 'touch', event);
 			}).bind(this));
-
+			
 			this.client = new InputSet();
 			this.editor = new InputSet();
-
-
 		};
 		
 		/**

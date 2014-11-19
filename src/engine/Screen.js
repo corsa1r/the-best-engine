@@ -32,8 +32,8 @@
          * @returns {Screen.prototype.translate.obj}
          */
         Screen.prototype.translate = function(obj) {
-            obj.x = (obj.x - this.borderLeft - this.boundingRect.left) * this.scaleX;
-            obj.y = (obj.y - this.borderTop - this.boundingRect.top) * this.scaleY;
+            obj.position.x = (obj.position.x - this.borderLeft - this.boundingRect.left) * this.scaleX;
+            obj.position.y = (obj.position.y - this.borderTop - this.boundingRect.top) * this.scaleY;
             return obj;
         };
 
